@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX 5
+
+int stack[MAX];
+int top = -1;
+
+void push(int element) {
+    if (top >= MAX - 1) {
+        printf("\n--> Stack Overflow!\n");
+    } else {
+        top++;
+        stack[top] = element;
+        printf("\n--> Pushed %d onto the stack.\n", element);
+    }
+}
+
+void pop() {
+    if (top <= -1) {
+        printf("\n--> Stack Underflow!\n");
+    } else {
+        printf("\n--> Popped %d from the stack.\n", stack[top]);
+        top--;
+    }
+}
+
+void isPalindrome() {
+    char str[50], reversedStr[50];
+    int stack_char[50];
+    int top_char = -1;
+    int i = 0;
+
+    printf("\nEnter a string to check for palindrome: ");
+    scanf("%s", str);
+
+    // Push characters onto a temporary character stack
+    for (i = 0; i < strlen(str); i++) {
+        top_char++;
+        stack_char[top_char] = str[i];
+    }
+
+    // Pop characters to get the reversed string
+    for (i = 0; i < strlen(str); i++) {
+        reversedStr[i] = stack_char[top_char];
+        top_char--;
+    }
+    reversedStr[i] = '\0'; // Null terminate the reversed string
+
+    if (strcmp(str, reversedStr) == 0) {
+        printf("\n--> The string \"%s\" is a palindrome.\n", str);
+    } else {
+        printf("\n--> The string \"%s\" is not a palindrome.\n", str);
+    }
+}
+
+void display() {
+    if (top >= 0) {
+        printf("\n--- Stack Status ---\n");
+        for (int i = top; i >= 0; i--) {
+            printf("| %d |\n", stack[i]);
+        }
+        printf("------Bottom------\n");
+    } else {
+        printf("\n--> Stack is empty.\n");
+    }
+}
+
+int main() {
+    int choice, value;
+    printf("--- STACK OPERATIONS (MAX SIZE = %d) ---\n", MAX);
+    do {
+        printf("\nMENU:\n");
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Check Palindrome\n");
+        printf("4. Display Stack\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter value to push: ");
+                scanf("%d", &value);
+                push(value);
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                isPalindrome();
+                break;
+            case 4:
+                display();
+                break;
+            case 5:
+                printf("\nExiting program.\n");
+                exit(0);
+            default:
+                printf("\nInvalid choice! Please try again.\n");
+        }
+    } while (choice != 5);
+
+    return 0;
+}
